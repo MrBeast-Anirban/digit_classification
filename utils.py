@@ -30,10 +30,14 @@ def train_model(x, y, model_params, model_type):
     model.fit(x, y)
     return model
 
-def train_test_dev_split(x, y, test_size, random_state = 1):
-    dev_ratio = 0.10
-
-    X_train, y_train, X_test, y_test = train_test_split(x, y, test_size = test_size, random_state = random_state) 
+#creating a train test and validation split function
+def train_test_dev_split(x, y, test_size, dev_size):
+    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = test_size, random_state = 1) 
     #spliting the training set into training set and validation set
-    X_train, y_train, X_dev, y_dev = train_test_split(X_train, y_train, test_size = dev_ratio, random_state = random_state)
+    X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = dev_size, random_state = 1)
     return X_train, y_train, X_test, y_test, X_dev, y_dev
+
+#prediction over the training data
+def predict_and_eval(model, X_test, y_test):
+    prediction = model.predict(X_test)
+    return prediction
