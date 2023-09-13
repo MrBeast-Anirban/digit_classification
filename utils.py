@@ -1,5 +1,5 @@
 from sklearn.model_selection import train_test_split
-from sklearn import datasets, svm
+from sklearn import datasets, svm, metrics
 
 # here we will put utils
 def read_digits():
@@ -40,4 +40,5 @@ def train_test_dev_split(x, y, test_size, dev_size):
 #prediction over the training data
 def predict_and_eval(model, X_test, y_test):
     prediction = model.predict(X_test)
-    return prediction
+    accuracy = metrics.accuracy_score(y_test, prediction)
+    return accuracy
