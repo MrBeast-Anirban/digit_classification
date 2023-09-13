@@ -31,7 +31,7 @@ for ax, image, label in zip(axes, X, y):
 
 # 3. Data Splitting to create train and test set
 #X_train, y_train, X_test, y_test = split_data(X, y, test_size = 0.3)
-X_train, y_train, X_test, y_test, X_dev, y_dev = train_test_dev_split(X, y, 0.3, 0.1)
+X_train, X_dev, X_test, y_train, y_dev, y_test = train_test_dev_split(X, y, 0.3, 0.1)
 #4. Data Preprocessing
 X_train = preprocess_data(X_train)
 X_test = preprocess_data(X_test)
