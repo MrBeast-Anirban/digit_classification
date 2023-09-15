@@ -7,10 +7,6 @@ from sklearn.model_selection import train_test_split
 from utils import preprocess_data, predict_and_eval, split_data, train_model, read_digits, train_test_dev_split
 from itertools import product
 #import pdb
-
-test_size = [0.1, 0.2, 0.3]
-dev_size = [0.1, 0.2, 0.3]
-
 # 1. Get the dataset
 X, y = read_digits()
 
