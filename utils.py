@@ -42,3 +42,21 @@ def predict_and_eval(model, X_test, y_test):
     prediction = model.predict(X_test)
     accuracy = metrics.accuracy_score(y_test, prediction)
     return accuracy
+
+def tune_hparams(X_train, y_train, X_dev, y_dev, list_of_all_param_combination):
+    best_accuracy = -1
+    best_model = None
+    for tuple in list_of_all_param_combination:
+        #training over current parameters
+        current_model = train_model(X_train, y_train, {'gamma' : tuple[0], 'C' : tuple[1]}, model_type = 'svm')
+        #evaluating model over current parameters on dev set
+        current_accuracy = predict_and_eval(current_model, X_dev, y_dev)
+        #get hyperparameter with best model accuracy
+        if current_accuracy > best_accuracy:
+           #print("The new best accuracy is : ", current_accuracy)
+           best_accuracy = current_accuracy
+           best_model = current_model
+           optimal_gamma = tuple[0]
+           optimal_c = tuple[1]
+    #print("Optimal Gamma -> ", optimal_gamma, '\n',"Optimal C Value -> ", optimal_c)
+    return best_model, optimal_gamma, optimal_c
