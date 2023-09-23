@@ -20,9 +20,9 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Install dep
         run:  pip3 install --no-cache-dir -r requirements.txt
-      - name: Run Unit Tests (Pytest)
       - run: echo "Performing Unit Testing"
+      - name: Run Unit Tests (Pytest)
         run: pytest
-      - name: Run experiment
       - run: echo "Running Experiment"
+      - name: Run experiment
         run: python digits_class.py
