@@ -1,12 +1,42 @@
 from sklearn.model_selection import train_test_split
-from sklearn import datasets, svm, metrics
+from sklearn import svm, datasets, metrics
+# we will put all utils here
 
-# here we will put utils
+def get_combinations(param_name, param_values, base_combinations):    
+    new_combinations = []
+    for value in param_values:
+        for combination in base_combinations:
+            combination[param_name] = value
+            new_combinations.append(combination.copy())    
+    return new_combinations
+
+def get_hyperparameter_combinations(dict_of_param_lists):    
+    base_combinations = [{}]
+    for param_name, param_values in dict_of_param_lists.items():
+        base_combinations = get_combinations(param_name, param_values, base_combinations)
+    return base_combinations
+
+def tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations):
+    best_accuracy = -1
+    for h_params in h_params_combinations:
+        # 5. Model training
+        model = train_model(X_train, y_train, h_params, model_type="svm")
+        # Predict the value of the digit on the test subset        
+        cur_accuracy = predict_and_eval(model, X_dev, y_dev)
+        if cur_accuracy > best_accuracy:
+            best_accuracy = cur_accuracy
+            best_hparams = h_params
+            best_model = model
+
+    return best_hparams, best_model, best_accuracy 
+
+
+
 def read_digits():
     digits = datasets.load_digits()
     X = digits.images
     y = digits.target
-    return X, y
+    return X, y 
 
 def preprocess_data(data):
     # flatten the images
@@ -15,48 +45,29 @@ def preprocess_data(data):
     return data
 
 # Split data into 50% train and 50% test subsets
-def split_data(x, y, test_size, random_state = 1):
-    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = test_size, random_state = random_state)
+def split_data(x, y, test_size, random_state=1):
+    X_train, X_test, y_train, y_test = train_test_split(
+    x, y, test_size=0.5,random_state=random_state
+    )
     return X_train, X_test, y_train, y_test
 
-#train the model of choice with model parameter
-def train_model(x, y, model_params, model_type):
+# train the model of choice with the model prameter
+def train_model(x, y, model_params, model_type="svm"):
     if model_type == "svm":
         # Create a classifier: a support vector classifier
         clf = svm.SVC
     model = clf(**model_params)
-    #train the model
-    #pdb.set_trace()
+    # train the model
     model.fit(x, y)
     return model
 
-#creating a train test and validation split function
-def train_test_dev_split(x, y, test_size, dev_size):
-    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = test_size, random_state = 1) 
-    #spliting the training set into training set and validation set
-    X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = dev_size, random_state = 1)
-    return X_train, X_dev, X_test, y_train, y_dev, y_test
 
-#prediction over the training data
+def train_test_dev_split(X, y, test_size, dev_size):
+    X_train_dev, X_test, Y_train_Dev, y_test =  train_test_split(X, y, test_size=test_size, random_state=1)
+    X_train, X_dev, y_train, y_dev = split_data(X_train_dev, Y_train_Dev, dev_size/(1-test_size), random_state=1)
+    return X_train, X_test, X_dev, y_train, y_test, y_dev
+
+# Question 2:
 def predict_and_eval(model, X_test, y_test):
-    prediction = model.predict(X_test)
-    accuracy = metrics.accuracy_score(y_test, prediction)
-    return accuracy
-
-def tune_hparams(X_train, y_train, X_dev, y_dev, list_of_all_param_combination):
-    best_accuracy = -1
-    best_model = None
-    for tuple in list_of_all_param_combination:
-        #training over current parameters
-        current_model = train_model(X_train, y_train, {'gamma' : tuple[0], 'C' : tuple[1]}, model_type = 'svm')
-        #evaluating model over current parameters on dev set
-        current_accuracy = predict_and_eval(current_model, X_dev, y_dev)
-        #get hyperparameter with best model accuracy
-        if current_accuracy > best_accuracy:
-           #print("The new best accuracy is : ", current_accuracy)
-           best_accuracy = current_accuracy
-           best_model = current_model
-           optimal_gamma = tuple[0]
-           optimal_c = tuple[1]
-    #print("Optimal Gamma -> ", optimal_gamma, '\n',"Optimal C Value -> ", optimal_c)
-    return best_model, optimal_gamma, optimal_c
+    predicted = model.predict(X_test)
+    return metrics.accuracy_score(y_test, predicted)
