@@ -21,6 +21,8 @@ jobs:
       - name: Install dep
         run:  pip3 install --no-cache-dir -r requirements.txt
       - name: Run Unit Tests (Pytest)
+      - run: echo "Performing Unit Testing"
         run: pytest
       - name: Run experiment
+      - run: echo "Running Experiment"
         run: python digits_class.py
