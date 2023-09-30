@@ -22,5 +22,6 @@ jobs:
         run:  pip3 install --no-cache-dir -r requirements.txt
       - name: Run Pytest
         run: pytest
+      - run: echo "Running Experiment"
       - name: Run experiment
         run: python digits_class.py

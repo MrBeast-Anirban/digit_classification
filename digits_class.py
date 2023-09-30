@@ -18,6 +18,7 @@ from utils import preprocess_data, split_data, train_model, read_digits, predict
 
 # 1. Get the dataset
 X, y = read_digits()
+print("Height of Dataset =",X.shape[1]/2, "\n", "Width of Dataset =", X.shape[1]/2)
 
 # 2. Hyperparameter combinations
 # 2.1. SVM
@@ -34,7 +35,7 @@ for test_size in test_sizes:
     for dev_size in dev_sizes:
         train_size = 1- test_size - dev_size
         # 3. Data splitting -- to create train and test sets                
-        X_train, X_test, X_dev, y_train, y_test, y_dev = train_test_dev_split(X, y, test_size=test_size, dev_size=dev_size)
+        X_train, X_test, X_dev, y_train, y_test, y_dev = train_test_dev_split(X, y, test_size=test_size, dev_size=dev_size) 
         # 4. Data preprocessing
         X_train = preprocess_data(X_train)
         X_test = preprocess_data(X_test)
@@ -46,5 +47,5 @@ for test_size in test_sizes:
         test_acc = predict_and_eval(best_model, X_test, y_test)
         train_acc = predict_and_eval(best_model, X_train, y_train)
         dev_acc = best_accuracy
-
+        print("Total Sample Size ->", X_train.shape[0] + X_test.shape[0] + X_dev.shape[0])
         print("test_size={:.2f} dev_size={:.2f} train_size={:.2f} train_acc={:.2f} dev_acc={:.2f} test_acc={:.2f}".format(test_size, dev_size, train_size, train_acc, dev_acc, test_acc))
