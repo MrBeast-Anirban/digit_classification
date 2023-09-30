@@ -25,6 +25,7 @@ def test_for_hparam_cominations_values():
     assert (expected_param_combo_1 in h_params_combinations) and (expected_param_combo_2 in h_params_combinations)
 
 
+#testing for spliting function
 def test_data_splitting():
     X, y = read_digits()
     
