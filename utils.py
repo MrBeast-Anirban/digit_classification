@@ -33,7 +33,9 @@ def tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations):
 
     # save the best_model    
     dump(best_model, best_model_path) 
+
     print("Model save at {}".format(best_model_path))
+
     return best_hparams, best_model_path, best_accuracy 
 
 
