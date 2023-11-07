@@ -1,0 +1,26 @@
+what other test cases for ml functionalities could we have?
+current :- data splitting, hparam count and param_values
+others :-
+    - tuning the hparams 
+    - test for accuracy false positive, false negative --(some matrix)
+        - regression test:
+            - after training set inference (predictions) on the regression set
+            - when you deploy the model -- there should be a check as the part of the deployment pipeline inferences on the model should be exactly same as from the previous step.
+                deployment pipeline (model, regression_set, expected_predictions)
+                    model(regression_set) == expected_predictions
+                    - inference code difference between the training repo and the deployment repo
+                    - the deployment candidate model is same as expected (based on model selection)
+    - generalizability of the model
+    - data quality (is feature as per requirement or not)
+    - shape of the dataframe as per requirement or not
+    - overfitting and underfitting -- test case would check for isoverfitting(model, bench_mark_data) == TRUE
+        - is my code good enough to make the model learn something 
+            evaluate(model = training_module(small_training_set) on small_training_set) == near_perfect_accuracy/some_metric
+    - is the model getting saved or not
+    - is the model that we saved is the right model or not
+
+Functionality change:
+    - once training is done, the model must be saved
+    - the metrics should be computed on the model that is loaded from the disk.
+
+anamoli detection = valid part of data curating/cleaning
