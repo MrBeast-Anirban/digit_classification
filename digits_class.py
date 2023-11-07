@@ -39,13 +39,11 @@ for test_size in test_sizes:
         X_train = preprocess_data(X_train)
         X_test = preprocess_data(X_test)
         X_dev = preprocess_data(X_dev)
-        
-        # "inside this function call" saving of the model (if current model performed better than the prevous one)
+    
         best_hparams, best_model_path, best_accuracy  = tune_hparams(X_train, y_train, X_dev, 
-        y_dev, h_params_combinations)  
-        
-        # delete the best model      
-        # loading of model    (loaded model should be used in the best model)     
+        y_dev, h_params_combinations)        
+    
+        # loading of model         
         best_model = load(best_model_path) 
 
         test_acc = predict_and_eval(best_model, X_test, y_test)
