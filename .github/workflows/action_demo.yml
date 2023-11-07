@@ -23,7 +23,7 @@ jobs:
       - name: Run Pytest
         run: pytest
       - name: Run experiment
-        run: python exp.py
+        run: python digits_class.py
       - name: build docker image
         run: docker build -t digits:v1 -f docker/Dockerfile .
       - name: run tests from docker
