@@ -2,7 +2,7 @@ from api.app import app
 import pytest
 from utils import read_digits,preprocess_data
 
-
+# 
 def test_get_root():
     response = app.test_client().get("/")
     assert response.status_code == 200
@@ -20,7 +20,7 @@ def get_processed_data():
     y = y[:100]
     X = preprocess_data(X)
     return X,y
-#main test cases for asseting digits prediction
+
 def test_predict_0():
     X,y = get_processed_data()
     response = app.test_client().post("/predict", json={"image":X[0].tolist()})
@@ -80,3 +80,9 @@ def test_predict_9():
     response = app.test_client().post("/predict", json={"image":X[9].tolist()})
     assert response.status_code == 200    
     assert response.get_json()['prediction'] == [9]
+
+def test_status_code():
+        response = app.test_client().get("/")
+        assert response.status_code == 200   
+        response = app.test_client().get("/random")
+        assert response.status_code == 404
