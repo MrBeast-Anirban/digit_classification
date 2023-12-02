@@ -20,9 +20,9 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Install dep
         run:  pip3 install --no-cache-dir -r requirements.txt
-      - name: Run code with linear regression Q3
+      - name: Run code with logistic regression
         run: python3 digits_class.py --runs 1 --test_sizes 0.3 --dev_sizes 0.2 --models lr
-      - name: Run code normaly
+      - name: Run code with svm and decision tree
         run: python3 digits_class.py --runs 4 --test_sizes 0.3 --dev_sizes 0.2 --models svm,tree
       - name: Run test cases
         run: python3 -m pytest
