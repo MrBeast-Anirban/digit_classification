@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 def load_model(model_name):
     dirname = os.path.dirname(__file__)
-    filename_svm = os.path.join(dirname, '../models/svmgamma:0.001_C:1.joblib')
+    filename_svm = os.path.join(dirname, '../models/svmgamma:0.001_C:2.joblib')
     svm = load(filename_svm)
     filename_tree = os.path.join(dirname, '../models/treemax_depth:100.joblib')
     tree = load(filename_tree)
@@ -32,7 +32,7 @@ def hello_world_post():
     return {"op" : "Hello, World POST " + request.json["suffix"]}
 
 @app.route('/predict/<model_name>', methods=['POST'])
-def pred_model():
+def pred_model(model_name):
     js = request.get_json()
     model_name = escape(model_name)
     image1 = [js['image']]
