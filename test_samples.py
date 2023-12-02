@@ -51,13 +51,13 @@ def test_data_splitting():
 def test_model_is_lr():
     solvers = ['lbfgs', 'liblinear', 'newton-cg', 'sag', 'saga']
     for solver in solvers:
-       loaded_model = load("./models/m23csa018_lr_{}".format(solver)+".joblib")
+       loaded_model = load("./models/m23csa005_lr_{}".format(solver)+".joblib")
        #check if loaded model is logistic regression model
        assert loaded_model.__class__.__name__ == 'LogisticRegression'
 
 def test_model_is_lr_solver():
     solvers = ['lbfgs', 'liblinear', 'newton-cg', 'sag', 'saga']
     for solver in solvers:
-       loaded_model = load("./models/m23csa018_lr_{}".format(solver)+".joblib")
+       loaded_model = load("./models/m23csa005_lr_{}".format(solver)+".joblib")
        #check if loaded model has correct solver
        assert loaded_model.solver == solver

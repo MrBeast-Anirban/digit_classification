@@ -12,7 +12,7 @@ def load_model(model_name):
     svm = load(filename_svm)
     filename_tree = os.path.join(dirname, '../models/treemax_depth:100.joblib')
     tree = load(filename_tree)
-    filename_lr = os.path.join(dirname, '../models/m23csa018_lr_lbfgs.joblib')
+    filename_lr = os.path.join(dirname, '../models/m23csa005_lr_lbfgs.joblib')
     lr = load(filename_lr)
     if model_name == 'svm':
         return svm
