@@ -20,6 +20,25 @@ def get_processed_data():
     y = y[:100]
     X = preprocess_data(X)
     return X,y
+
+def test_predict_svm():
+    X,y = get_processed_data()
+    response = app.test_client().post("/predict/svm", json={"image":X[0].tolist()})
+    assert response.status_code == 200    
+    assert response.get_json()['prediction'] == [0]
+
+def test_predict_tree():
+    X,y = get_processed_data()
+    response = app.test_client().post("/predict/tree", json={"image":X[0].tolist()})
+    assert response.status_code == 200    
+    assert response.get_json()['prediction'] == [0]
+
+def test_predict_lr():
+    X,y = get_processed_data()
+    response = app.test_client().post("/predict/lr", json={"image":X[0].tolist()})
+    assert response.status_code == 200    
+    assert response.get_json()['prediction'] == [0]
+
 #main test cases for asseting digits prediction
 # def test_predict_0():
 #     X,y = get_processed_data()
