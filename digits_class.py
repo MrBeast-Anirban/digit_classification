@@ -40,6 +40,10 @@ h_params_tree['max_depth'] = max_depth_list
 h_params_trees_combinations = get_hyperparameter_combinations(h_params_tree)
 classifier_param_dict['tree'] = h_params_trees_combinations
 
+# Logistic Regression
+solvers = ['lbfgs', 'liblinear', 'newton-cg', 'newton-cholesky', 'sag', 'saga']
+classifier_param_dict['lr'] = [{'solver': solver} for solver in solvers]
+ 
 
 results = []
 test_sizes =  [0.2]

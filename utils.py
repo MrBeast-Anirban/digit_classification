@@ -2,6 +2,7 @@ from sklearn.model_selection import train_test_split
 from sklearn import svm, tree, datasets, metrics
 from sklearn import preprocessing
 from joblib import dump, load
+from sklearn.linear_model.LogisticRegression
 # we will put all utils here
 
 def get_combinations(param_name, param_values, base_combinations):    
@@ -18,7 +19,7 @@ def get_hyperparameter_combinations(dict_of_param_lists):
         base_combinations = get_combinations(param_name, param_values, base_combinations)
     return base_combinations
 
-def tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations, model_type="svm"):
+def tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations, model_type="lr"):
     best_accuracy = -1
     best_model_path = ""
     for h_params in h_params_combinations:
@@ -29,7 +30,7 @@ def tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations, model_ty
         if cur_accuracy > best_accuracy:
             best_accuracy = cur_accuracy
             best_hparams = h_params
-            best_model_path = "./models/{}_".format(model_type) +"_".join(["{}:{}".format(k,v) for k,v in h_params.items()]) + ".joblib"
+            best_model_path = "./models/m23csa005_{}_".format(model_type) +"_".join(["{}:{}".format(k,v) for k,v in h_params.items()]) + ".joblib"
             best_model = model
 
     # save the best_model    
@@ -68,6 +69,9 @@ def train_model(x, y, model_params, model_type="svm"):
     if model_type == "tree":
         # Create a classifier: a decision tree classifier
         clf = tree.DecisionTreeClassifier
+    if model_type == 'lr':
+        clf = linear_model.LogisticRegression
+
     model = clf(**model_params)
     # train the model
     model.fit(x, y)
